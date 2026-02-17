@@ -1,35 +1,77 @@
 # Volatility Forecasting & VaR Backtesting (DAX)
 
-This project benchmarks classical volatility models against each other and evaluates the implications for market risk forecasting (VaR).  
-We use daily DAX returns and perform rolling one-step-ahead volatility forecasts, then compute 1% and 5% VaR and validate it with standard backtests.
+This project provides a comprehensive empirical study of volatility modeling and market risk forecasting using daily DAX index returns.  
+We benchmark symmetric and asymmetric GARCH-type models and evaluate their implications for Value-at-Risk (VaR) estimation and regulatory backtesting.
+
+The objective is to assess whether modeling volatility asymmetry (leverage effects) improves out-of-sample forecast accuracy and risk calibration.
+
+---
 
 ## Data
-- Instrument: DAX index (`^GDAXI`)
-- Frequency: daily
-- Sample start: 2014-01-01
-- Data source: Yahoo Finance (via `yfinance`)
 
-## Pipeline
-1. **Data & Stylized Facts**
-   - log-returns, heavy tails (Jarque–Bera)
-   - volatility clustering (ACF of |returns|)
-   - ARCH effects (ARCH LM test)
+- Asset: DAX Index (^GDAXI)
+- Frequency: Daily
+- Transformation: Log returns
+- Sample split: 80% in-sample (estimation), 20% out-of-sample (forecast evaluation)
 
-2. **Volatility Models (Econometrics)**
-   - GARCH(1,1)
-   - EGARCH(1,1)
-   - GJR-GARCH(1,1) (captures asymmetry / leverage effect)
-   - Model selection via AIC/BIC
+Volatility proxy for evaluation: **squared returns**
 
-3. **Out-of-sample Forecast Evaluation**
-   - Rolling one-step-ahead forecasts
-   - Variance proxy: squared returns
-   - Metrics: RMSE, QLIKE
+---
 
-4. **VaR & Backtesting**
-   - Normal VaR with mean=0
-   - Levels: 1% and 5%
-   - Tests: Kupiec (POF), Christoffersen (Independence), Conditional Coverage
+## Methodological Framework
+
+### Volatility Models
+- GARCH(1,1)
+- GJR-GARCH(1,1) (asymmetric specification)
+
+### Estimation
+- Maximum Likelihood Estimation (MLE)
+- Gaussian innovations
+
+### Forecasting Design
+- Rolling one-step-ahead volatility forecasts
+- Out-of-sample evaluation
+
+### Forecast Evaluation Metrics
+- RMSE (Root Mean Squared Error)
+- QLIKE (Quasi-Likelihood Loss)
+
+### Risk Metrics
+- Parametric VaR (mean = 0)
+- Confidence levels: 1% and 5%
+
+### Backtesting Procedures
+- Kupiec Proportion of Failures (POF) test
+- Christoffersen Independence test
+- Christoffersen Conditional Coverage test
+
+---
+
+## Empirical Findings
+
+### Stylized Facts
+
+- Strong excess kurtosis and rejection of normality (Jarque–Bera test).
+- Significant ARCH effects detected.
+- Clear volatility clustering in absolute returns.
+
+### Model Comparison
+
+- GJR-GARCH(1,1) outperformed symmetric GARCH in AIC and out-of-sample loss.
+- RMSE and QLIKE metrics confirm the economic relevance of volatility asymmetry.
+- Asymmetric volatility modeling improves forecast stability.
+
+### Risk Implications
+
+- At the 1% VaR level, GJR-GARCH produced fewer exceedances.
+- Kupiec and Conditional Coverage tests indicate improved calibration under asymmetric modeling.
+- Modeling leverage effects materially improves downside risk estimation.
+
+### Conclusion
+
+Accounting for asymmetry in volatility dynamics significantly enhances both volatility forecast accuracy and market risk calibration for equity index returns.
+
+---
 
 ## Repository Structure
 - `notebooks/` : end-to-end analysis notebooks
@@ -37,12 +79,23 @@ We use daily DAX returns and perform rolling one-step-ahead volatility forecasts
 - `results/tables/` : exported tables (metrics, backtests)
 - `results/figures/` : saved figures (optional)
 
-## Key Findings
+## Empirical Findings
 
-- GJR-GARCH(1,1) outperformed symmetric GARCH in both AIC/BIC and volatility forecast accuracy.
-- RMSE and QLIKE metrics suggest asymmetric volatility effects are economically significant.
-- At the 1% VaR level, GJR-GARCH produced fewer exceedances and passed Kupiec and Christoffersen tests more consistently.
-- Results support the importance of modeling leverage effects in equity index risk forecasting.
+### Stylized Facts
+- Strong excess kurtosis and rejection of normality (Jarque–Bera test).
+- Significant ARCH effects detected.
+- Clear volatility clustering in absolute returns.
+
+### Model Comparison
+- GJR-GARCH(1,1) outperformed symmetric GARCH in AIC and out-of-sample loss.
+- QLIKE and RMSE confirm the economic relevance of asymmetry (leverage effect).
+
+### Risk Implications
+- VaR backtesting indicates improved calibration under asymmetric volatility modeling.
+- Conditional Coverage tests support the importance of dynamic volatility specification for market risk estimation.
+
+### Conclusion
+Modeling asymmetry in volatility dynamics materially improves risk forecasting accuracy for equity index returns.
   
 ## How to run
 ```bash
