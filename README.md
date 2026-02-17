@@ -37,6 +37,13 @@ We use daily DAX returns and perform rolling one-step-ahead volatility forecasts
 - `results/tables/` : exported tables (metrics, backtests)
 - `results/figures/` : saved figures (optional)
 
+## Key Findings
+
+- GJR-GARCH(1,1) outperformed symmetric GARCH in both AIC/BIC and volatility forecast accuracy.
+- RMSE and QLIKE metrics suggest asymmetric volatility effects are economically significant.
+- At the 1% VaR level, GJR-GARCH produced fewer exceedances and passed Kupiec and Christoffersen tests more consistently.
+- Results support the importance of modeling leverage effects in equity index risk forecasting.
+  
 ## How to run
 ```bash
 python3 -m venv venv
