@@ -1,0 +1,15 @@
+,0
+mean,"Ticker
+^GDAXI    0.031658
+dtype: float64"
+std,"Ticker
+^GDAXI    1.188339
+dtype: float64"
+min,"Ticker
+^GDAXI   -13.054859
+dtype: float64"
+max,"Ticker
+^GDAXI    10.414287
+dtype: float64"
+skewness,[-0.57969679]
+kurtosis,[12.88549071]
